@@ -53,4 +53,17 @@ require("lazy").setup({
 	},
 	{ "windwp/nvim-autopairs" },
 	{ "windwp/nvim-ts-autotag" },
+  -- show registers in real time
+  {
+    "tversteeg/registers.nvim",
+	name = "registers",
+  	keys = {
+  		{ "\"",    mode = { "n", "v" } },
+  		{ "<C-R>", mode = "i" }
+  	},
+  	cmd = "Registers",
+    config = function()
+      require("registers").setup()
+    end,
+  },
 })
