@@ -53,27 +53,73 @@ require("lazy").setup({
 	},
 	{ "windwp/nvim-autopairs" },
 	{ "windwp/nvim-ts-autotag" },
-  -- show registers in real time
-  {
-    "tversteeg/registers.nvim",
-	name = "registers",
-  	keys = {
-  		{ "\"",    mode = { "n", "v" } },
-  		{ "<C-R>", mode = "i" }
-  	},
-  	cmd = "Registers",
-    config = function()
-      require("registers").setup()
-    end,
-  },
-  {
-    'Exafunction/codeium.vim',
-    config = function ()
-      -- Change '<C-g>' here to any keycode you like.
-      vim.keymap.set('i', '<C-g>', function () return vim.fn['codeium#Accept']() end, { expr = true })
-      vim.keymap.set('i', '<c-;>', function() return vim.fn['codeium#CycleCompletions'](1) end, { expr = true })
-      vim.keymap.set('i', '<c-,>', function() return vim.fn['codeium#CycleCompletions'](-1) end, { expr = true })
-      vim.keymap.set('i', '<c-x>', function() return vim.fn['codeium#Clear']() end, { expr = true })
-    end
-  },
+	-- show registers in real time
+	{
+		"tversteeg/registers.nvim",
+		name = "registers",
+		keys = {
+			{ '"', mode = { "n", "v" } },
+			{ "<C-R>", mode = "i" },
+		},
+		cmd = "Registers",
+		config = function()
+			require("registers").setup()
+		end,
+	},
+	{
+		"Exafunction/codeium.vim",
+		config = function()
+			-- Change '<C-g>' here to any keycode you like.
+			vim.keymap.set("i", "<C-g>", function()
+				return vim.fn["codeium#Accept"]()
+			end, { expr = true })
+			vim.keymap.set("i", "<c-;>", function()
+				return vim.fn["codeium#CycleCompletions"](1)
+			end, { expr = true })
+			vim.keymap.set("i", "<c-,>", function()
+				return vim.fn["codeium#CycleCompletions"](-1)
+			end, { expr = true })
+			vim.keymap.set("i", "<c-x>", function()
+				return vim.fn["codeium#Clear"]()
+			end, { expr = true })
+		end,
+	},
+	{
+		-- for starting quick test right in vim
+		"nvim-neotest/neotest",
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+			"nvim-treesitter/nvim-treesitter",
+			"antoinemadec/FixCursorHold.nvim",
+			"haydenmeade/neotest-jest",
+		},
+		config = function()
+			require("neotest").setup({
+				adapters = {
+					require("neotest-jest")({
+						jestCommand = "npm test --",
+						jestConfigFile = "jest.config.ts",
+						env = { CI = true },
+						cwd = function(path)
+							return vim.fn.getcwd()
+						end,
+					}),
+				},
+			})
+		end,
+	},
+	{
+		"jackMort/ChatGPT.nvim",
+		event = "VeryLazy",
+		config = function()
+			require("chatgpt").setup({
+				api_key_cmd = "echo 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",
+			})
+		end,
+		dependencies = {
+			"MunifTanjim/nui.nvim",
+			"nvim-lua/plenary.nvim",
+			"nvim-telescope/telescope.nvim",
+		},
+	},
 })
