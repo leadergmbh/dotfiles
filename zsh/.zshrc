@@ -114,3 +114,6 @@ export NVM_DIR="$HOME/.config/nvm"
 setopt nosharehistory
 
 export GPG_TTY=$(tty)
+
+# bat replace cat in man command
+export MANPAGER="sh -c 'col -bx | batcat -l man -p'"
